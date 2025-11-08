@@ -21,6 +21,7 @@ export class Cache {
   setItem<T>(key: string, data: T, ttl: number = this.DEFAULT_TTL): void {
     const expiry = Date.now() + ttl;
     const cacheEntry: CacheEntry<T> = { data, expiry };
+
     try {
       localStorage.setItem(key, JSON.stringify(cacheEntry));
     } catch (e) {
