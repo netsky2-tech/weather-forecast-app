@@ -59,7 +59,7 @@ export class WeatherApi {
         units: 'M'
       }
     }).pipe(
-      tap(data => this.cache.setItem(cacheKey, data));
+      tap(data => this.cache.setItem(cacheKey, data))
     )
   };
 }
