@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
-import { CacheService } from '../cache/cache.service';
+import { Cache } from '../cache/cache'
 import { enviroment } from '../../../environments/environment';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { enviroment } from '../../../environments/environment';
 })
 export class WeatherApi {
   private http = inject(HttpClient);
-  private cache = inject(CacheService);
+  private cache = inject(Cache);
 
   private readonly baseUrl: string = enviroment.API_URL;
   private readonly apiKey: string = enviroment.API_KEY;
@@ -51,15 +51,15 @@ export class WeatherApi {
       return of(cachedData);
     }
 
-    return this.http.get(`${this.baseUrl}/forecast/daily`, {
-      params: {
-        postal_code: zipcode,
-        key: this.apiKey,
-        days: 5,
-        units: 'M'
-      }
-    }).pipe(
-      tap(data => this.cache.setItem(cacheKey, data))
-    )
-  };
+    return this.http
+      .get(`${this.baseUrl}/forecast/daily`, {
+        params: {
+          postal_code: zipcode,
+          key: this.apiKey,
+          days: 5,
+          units: 'M',
+        },
+      })
+      .pipe(tap((data) => this.cache.setItem(cacheKey, data)));
+  }
 }
