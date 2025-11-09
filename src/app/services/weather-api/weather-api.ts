@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { Cache } from '../cache/cache'
 import { enviroment } from '../../../environments/environment';
+import { CurrentWeatherModel,Weather, CurrentDataEntity } from '../../models/current-weather.model'
+import { DailyWeatherModel, DailyWeather, DailyDataEntity } from '../../models/daily-weather.model'
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +18,9 @@ export class WeatherApi {
   private readonly apiKey: string = enviroment.API_KEY;
 
   // Metodo para obtener condiciones actuales
-  getCurrentConditions(zipcode: string): Observable<any> {
+  getCurrentConditions(zipcode: string): Observable<CurrentDataEntity> {
     const cacheKey = `current_${zipcode}`;
-    const cachedData = this.cache.getItem<any>(cacheKey);
+    const cachedData = this.cache.getItem<CurrentDataEntity>(cacheKey);
 
     // Si hay cache valida se retorna como un Observable
     if (cachedData) {
@@ -27,7 +29,7 @@ export class WeatherApi {
 
     // Si no, se realiza la peticion HTTP
     return this.http
-      .get(`${this.baseUrl}/current`, {
+      .get<CurrentWeatherModel>(`${this.baseUrl}/current`, {
         params: {
           postal_code: zipcode,
           key: this.apiKey,
@@ -42,9 +44,10 @@ export class WeatherApi {
       );
   }
 
-  getForecast(zipcode: string): Observable<any> {
+  // Metodo para obtener pronosticos diarios
+  getForecast(zipcode: string): Observable<DailyWeatherModel> {
     const cacheKey = `forecast_${zipcode}`;
-    const cachedData = this.cache.getItem<any>(cacheKey);
+    const cachedData = this.cache.getItem<DailyWeatherModel>(cacheKey);
 
     // Si hay cache valida se retorna como un Observable
     if (cachedData) {
@@ -52,7 +55,7 @@ export class WeatherApi {
     }
 
     return this.http
-      .get(`${this.baseUrl}/forecast/daily`, {
+      .get<DailyWeatherModel>(`${this.baseUrl}/forecast/daily`, {
         params: {
           postal_code: zipcode,
           key: this.apiKey,
