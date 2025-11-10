@@ -1,0 +1,18 @@
+:root {
+  --bs-body-bg: #f8f9fa;
+  --bs-body-color: #1a1a1a;
+  --bs-primary: #0d6efd;
+  --bs-secondary: #6c757d;
+  --bs-border-color: #dee2e6;
+
+  --card-bg: #ffffff;
+  --card-color: #1a1a1a;
+  --accent: #0dcaf0;
+  --muted-bg: #e9ecef;
+}
+
+body {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+

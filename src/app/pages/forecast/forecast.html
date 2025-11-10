@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div *ngIf="forecast$ | async as forecast; else loading">
+
+    <div classs="d-flex justify-content-between align-items-center mb-3">
+      <h3>Pronóstico de 5 días para {{ forecast.city_name }}</h3>
+      <a [routerLink]="['/weather']" class="btn btn-outline-secondary">
+        &larr; Volver
+      </a>
+    </div>
+
+    <div class="list-group shadow-sm">
+      <div *ngFor="let day of forecast.data" class="list-group-item">
+        <div class="row align-items-center">
+
+          <div class="col-md-3">
+            <h5 class="mb-0">{{ day.valid_date | date:'fullDate' }}</h5>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-center">
+            <img [src]="'https://www.weatherbit.io/static/img/icons/' + day.weather.icon + '.png'"
+                 [alt]="day.weather.description"
+                 width="60"
+                 height="60">
+            <span class="ms-2 fs-5">{{ day.weather.description }}</span>
+          </div>
+
+          <div class="col-md-6 text-md-end">
+            <span class="fs-5 me-3">
+              <strong>Máx:</strong> {{ day.max_temp | number:'1.0-0' }}°F
+            </span>
+            <span class="fs-5 text-muted">
+              <strong>Mín:</strong> {{ day.min_temp | number:'1.0-0' }}°F
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #loading>
+    <div class="d-flex justify-content-center align-items-center p-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <span class="ms-3">Cargando pronóstico para {{ zipcode }}...</span>
+    </div>
+  </ng-template>
+</div>

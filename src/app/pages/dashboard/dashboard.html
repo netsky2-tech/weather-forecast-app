@@ -1,0 +1,58 @@
+<div class="container-fluid py-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+
+      <div class="dashboard-hero">
+            <div class="hero-icon">🌤️</div>
+            <h1 class="display-4 fw-bold mb-3">Pronóstico del tiempo</h1>
+            <p class="lead mb-0">Manténgase informado sobre las condiciones meteorológicas en múltiples ubicaciones.</p>
+      </div>
+
+      <div class="card shadow-sm mb-5">
+        <div class="card-body p-4">
+          <h2 class="card-title mb-3">Añadir una ubicación</h2>
+          <form (ngSubmit)="addLocation()">
+              <div class="input-group mb-3">
+                  <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  placeholder="Ingrese el código postal de EE. UU. (por ejemplo, 10001)"
+                  aria-label="Codigo postal"
+                  name="zipcode"
+                  id="zipcode"
+                  [(ngModel)]="zipcode"
+                  required
+                  >
+                  <button class="btn btn-primary btn-lg" type="submit">
+                    <span>Agregar</span>
+                  </button>
+              </div>
+            </form>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="mb-3">Tus ubicaciones</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+             <div class="location-card p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="mb-1 fw-bold">📍 </h5>
+                    <p class="text-muted mb-0 small">Clic para ver el clima</p>
+                  </div>
+                  <span class="badge bg-primary">CÓDIGO POSTAL</span>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-info text-center py-5">
+              <p class="mb-0">Aún no se han agregado ubicaciones. Ingrese un código postal arriba para comenzar.!</p>
+      </div>
+
+
+    </div>
+  </div>
+</div>

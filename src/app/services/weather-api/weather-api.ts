@@ -18,9 +18,9 @@ export class WeatherApi {
   private readonly apiKey: string = enviroment.API_KEY;
 
   // Metodo para obtener condiciones actuales
-  getCurrentConditions(zipcode: string): Observable<CurrentDataEntity> {
+  getCurrentConditions(zipcode: string): Observable<CurrentWeatherModel> {
     const cacheKey = `current_${zipcode}`;
-    const cachedData = this.cache.getItem<CurrentDataEntity>(cacheKey);
+    const cachedData = this.cache.getItem<CurrentWeatherModel>(cacheKey);
 
     // Si hay cache valida se retorna como un Observable
     if (cachedData) {
@@ -37,8 +37,9 @@ export class WeatherApi {
         },
       })
       .pipe(
-        // Extraer data relevante para mostrar al usuaroi
-        map((response: any) => response.data[0]),
+        // Extraer data relevante para mostrar al usuario
+        // Se utiliza [0] por que el API retorna []
+        //map((response: any) => response.data[0]),
         // Se guarda en cache antes de devolver
         tap((data) => this.cache.setItem(cacheKey, data))
       );
@@ -63,6 +64,8 @@ export class WeatherApi {
           units: 'M',
         },
       })
-      .pipe(tap((data) => this.cache.setItem(cacheKey, data)));
+      .pipe(
+        tap((data) => this.cache.setItem(cacheKey, data))
+      );
   }
 }

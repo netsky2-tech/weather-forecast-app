@@ -1,0 +1,38 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item" *ngFor="let tab of tabs">
+    <a class="nav-link"
+      [class.active]="tab.id === activeTab()"
+      (click)="selectTab(tab.id)"
+      href="javascript:void(0)"
+      role="tab"
+      [attr.aria.selected]="tab.id === activeTab()"
+    >
+    {{ tab.title + (tab.id) }}
+    <button
+      type="button"
+      class="btn-close btn-close-sm ms-3"
+      aria-label="Cerrar pestaña"
+      (click)="closeTab($event, tab.id)"
+    ></button>
+  </a>
+  </li>
+</ul>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="tab-content border border-top-0 p-3">
+      <ng-container *ngFor="let tab of tabs">
+
+        <div *ngIf="tab.id === activeTab()">
+          <ng-container
+            *ngTemplateOutlet="tabTemplate; context: { $implicit: tab.id}">
+          </ng-container>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+  <div class="col-md-6">
+    second card
+  </div>
+</div>

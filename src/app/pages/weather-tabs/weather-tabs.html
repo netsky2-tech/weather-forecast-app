@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Clima Actual</h1>
+    <a [routerLink]="['/dashboard']" class="btn btn-outline-secondary">
+      + Añadir nueva ubicación
+    </a>
+  </div>
+
+  <div *ngIf="locations().length === 0; else showTabs"
+       class="alert alert-info text-center">
+    No has añadido ninguna ubicación.
+    <a [routerLink]="['/dashboard']">Añade una</a> para empezar.
+  </div>
+
+  <ng-template #showTabs>
+    <app-tabs-container
+      [tabs]="tabs()"
+      (tabClosed)="onTabClosed($event)"
+      [requestedTab] = "requestedActiveTab"
+      >
+
+      <ng-template let-zip>
+        <app-current-conditions [zipcode]="zip"></app-current-conditions>
+      </ng-template>
+
+    </app-tabs-container>
+  </ng-template>
+</div>

@@ -1,0 +1,31 @@
+
+    <div *ngIf="conditions; else loading">
+      <h2>Condiciones actuales en {{ conditions.data?.[0]?.city_name }}</h2>
+      <div class="d-flex align-items-center">
+        <img [src]="'https://www.weatherbit.io/static/img/icons/' + conditions.data?.[0]?.weather?.icon + '.png'"
+          [alt]="conditions.data?.[0]?.weather?.description"
+          width="80"
+          height="80"
+        >
+
+        <div class="ms-3">
+          <h2 class="display-6">{{ conditions.data?.[0]?.temp }}°C</h2>
+          <p class="lead mb-0">{{ conditions.data?.[0]?.weather?.description }}</p>
+          <p class="text-muted">Humedad: {{ conditions.data?.[0]?.rh }}</p>
+        </div>
+      </div>
+
+      <a [routerLink]="['/forecast', zipcode]" class="btn btn-link mt-3">
+        Ver pronostico de 5 dias para {{ conditions.data?.[0]?.city_name }}
+      </a>
+    </div>
+
+
+<ng-template #loading>
+  <div class="d-flex justify-content-center align-items-center p-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <span class="ms-3">Cargando datos para {{ zipcode }}...</span>
+  </div>
+</ng-template>
