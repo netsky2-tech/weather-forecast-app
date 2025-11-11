@@ -1,0 +1,85 @@
+// Variables
+$primary-text: #333;
+$secondary-text: #6c757d;
+$accent-color: #007bff;
+$subtle-border-color: #cccfd2;
+$bg-hover: #f8f9fa;
+
+.container.forecast-page {
+
+  .page-header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid $subtle-border-color;
+
+    h3 {
+      font-size: 1.75rem;
+      font-weight: 300;
+      color: $primary-text;
+      margin: 0;
+    }
+
+    .back-btn {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      color: $secondary-text;
+      border-color: $subtle-border-color;
+
+      &:hover {
+        color: white;
+        background-color: $accent-color;
+        border-color: $accent-color;
+      }
+    }
+  }
+
+
+  .forecast-list {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .list-group-item {
+      border: none;
+      border-bottom: 1px solid $subtle-border-color;
+      padding: 15px 20px;
+      transition: background-color 0.2s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: $bg-hover;
+      }
+
+      .row {
+        align-items: center;
+      }
+
+
+      .col-12.col-md-3:first-child h5 {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: $primary-text;
+      }
+
+      .col-6.col-md-3:nth-child(2) {
+        .pop-info {
+          font-size: 0.8rem;
+          font-weight: 500;
+          margin-top: 3px;
+        }
+      }
+
+      .col-6.col-md-6.text-md-end {
+
+        .wind-info,
+        .uv-info {
+          font-size: 0.8rem;
+          display: inline-block;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

@@ -1,24 +1,61 @@
+<div class="weather-card" *ngIf="conditions; else loading">
+  <h2 class="weather-card-title">{{ conditions.data?.[0]?.city_name }}</h2>
+  <div class="current-temp-section">
+    <img [src]="'https://www.weatherbit.io/static/img/icons/' + conditions.data?.[0]?.weather?.icon + '.png'"
+      [alt]="conditions.data?.[0]?.weather?.description" width="80" height="80">
 
-    <div *ngIf="conditions; else loading">
-      <h2>Condiciones actuales en {{ conditions.data?.[0]?.city_name }}</h2>
-      <div class="d-flex align-items-center">
-        <img [src]="'https://www.weatherbit.io/static/img/icons/' + conditions.data?.[0]?.weather?.icon + '.png'"
-          [alt]="conditions.data?.[0]?.weather?.description"
-          width="80"
-          height="80"
-        >
-
-        <div class="ms-3">
-          <h2 class="display-6">{{ conditions.data?.[0]?.temp }}°C</h2>
-          <p class="lead mb-0">{{ conditions.data?.[0]?.weather?.description }}</p>
-          <p class="text-muted">Humedad: {{ conditions.data?.[0]?.rh }}</p>
-        </div>
-      </div>
-
-      <a [routerLink]="['/forecast', zipcode]" class="btn btn-link mt-3">
-        Ver pronostico de 5 dias para {{ conditions.data?.[0]?.city_name }}
-      </a>
+    <div class="temp-details">
+      <h2 class="temperature">{{ conditions.data?.[0]?.temp }}°C</h2>
+      <p class="description">{{ conditions.data?.[0]?.weather?.description }}</p>
     </div>
+  </div>
+
+  <div class="details-grid">
+
+    <div class="detail-item">
+      <span class="detail-label">Humedad</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.rh }}%</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Sensación</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.app_temp }}°C</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Viento</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.wind_spd | number:'1.0-1'}} mph {{ conditions.data?.[0]?.wind_cdir_full }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Presión</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.pres }} mb</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Índice UV</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.uv | number:'1.0-0' }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Visibilidad</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.vis| number:'1.0-0' }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Amanecer</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.sunset }} </span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Atardecer</span>
+      <span class="detail-value">{{ conditions.data?.[0]?.sunrise }} </span>
+    </div>
+
+
+  </div>
+
+  <a [routerLink]="['/forecast', zipcode]" class="btn btn-link link-style mt-4">
+    Ver pronostico de 5 dias para {{ conditions.data?.[0]?.city_name }}
+    <i class="bi bi-arrow-right ms-2"></i>
+  </a>
+</div>
 
 
 <ng-template #loading>
@@ -26,6 +63,6 @@
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Cargando...</span>
     </div>
-    <span class="ms-3">Cargando datos para {{ zipcode }}...</span>
+    <span class="ms-3 text-muted">Cargando datos para {{ zipcode }}...</span>
   </div>
 </ng-template>

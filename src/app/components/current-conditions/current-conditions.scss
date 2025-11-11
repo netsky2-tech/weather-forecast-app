@@ -1,18 +1,97 @@
-:root {
-  --bs-body-bg: #f8f9fa;
-  --bs-body-color: #1a1a1a;
-  --bs-primary: #0d6efd;
-  --bs-secondary: #6c757d;
-  --bs-border-color: #dee2e6;
+$weather-bg-light: #f4f6f9;
+$primary-text: #333;
+$secondary-text: #6c757d;
+$accent-color: #007bff;
+$shadow-light: rgba(0, 0, 0, 0.08);
 
-  --card-bg: #ffffff;
-  --card-color: #1a1a1a;
-  --accent: #0dcaf0;
-  --muted-bg: #e9ecef;
+.weather-card {
+
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px $shadow-light;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 6px 16px $shadow-light;
+  }
+
+  .weather-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $primary-text;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 15px;
+  }
+
+  .current-temp-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .weather-icon {
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+    }
+
+    .temp-details {
+      margin-left: 20px;
+
+      .temperature {
+        font-size: 3rem;
+        font-weight: 300;
+        margin-bottom: -5px;
+        color: $primary-text;
+      }
+
+      .description {
+        font-size: 1rem;
+        color: $secondary-text;
+        font-weight: 400;
+        text-transform: capitalize;
+        margin: 0;
+      }
+    }
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #e9ecef;
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+
+      .detail-label {
+        font-size: 0.9rem;
+        color: $secondary-text;
+      }
+
+      .detail-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: $primary-text;
+      }
+    }
+  }
+
+  .link-style {
+    display: inline-flex;
+    align-items: center;
+    color: $accent-color;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+      opacity: 0.85;
+    }
+  }
 }
-
-body {
-  background-color: var(--bs-body-bg);
-  color: var(--bs-body-color);
-}
-
