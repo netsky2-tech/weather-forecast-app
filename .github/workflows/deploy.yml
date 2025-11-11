@@ -27,7 +27,7 @@ jobs:
 
     # 4. Construye la aplicación (usando la config de angular.json)
     - name: Build
-      run: ng build --configuration production
+      run: npx ng build --configuration production
 
     # 5. Despliega la carpeta 'dist/' en la rama 'gh-pages'
     - name: Deploy to GitHub Pages
