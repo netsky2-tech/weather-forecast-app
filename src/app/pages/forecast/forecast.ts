@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { WeatherApi } from '../../services/weather-api/weather-api';
 import { DailyWeatherModel } from '../../models/daily-weather.model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-forecast',
@@ -15,15 +16,18 @@ export class Forecast {
   private route = inject(ActivatedRoute);
   private weatherApi = inject(WeatherApi);
 
-  forecast$!: Observable<DailyWeatherModel>;
+  forecast: Signal<DailyWeatherModel | undefined>;
   zipcode: string = '';
 
-  ngOnInit() {
-    // Obtener el zipcode del parametro de la ruta
+  constructor() {
     this.zipcode = this.route.snapshot.paramMap.get('zipcode')!;
 
     if (this.zipcode) {
-      this.forecast$ = this.weatherApi.getForecast(this.zipcode);
+      const forecast$ = this.weatherApi.getForecast(this.zipcode);
+
+      this.forecast = toSignal(forecast$);
+    } else {
+      this.forecast = toSignal(new Observable<DailyWeatherModel>());
     }
   }
 }

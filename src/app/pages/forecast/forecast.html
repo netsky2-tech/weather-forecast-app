@@ -1,86 +1,98 @@
 <div class="container forecast-page mt-4">
-  <div *ngIf="forecast$ | async as forecast; else loading">
 
-    <div class="page-header d-flex justify-content-between align-items-center mb-5">
-      <h3>Pronóstico de 5 días para <strong>{{ forecast.city_name }} </strong></h3>
-      <a [routerLink]="['/weather']" class="btn btn-outline-secondary back-btn">
-        <i class="bi bi-arrow-left me-1"></i> &larr; Volver
-      </a>
-    </div>
+  @if (forecast(); as forecast) {
 
-    <!-- Tabla de tendencia para las temperaturas -->
-    <h4 class="mb-3 mt-4 text-center text-muted fw-light">Tendencia de Temperatura Máx/Mín</h4>
-    <div class="table-responsive chart-container mb-5">
-      <table class="table table-sm text-center forecast-trend-table">
-        <thead>
-          <tr>
-            <th *ngFor="let day of forecast.data">{{ day.valid_date | date:'EEE' }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td *ngFor="let day of forecast.data" class="text-danger fw-bold">
-              {{ day.max_temp | number:'1.0-0' }}°
-            </td>
-          </tr>
-          <tr>
-            <td *ngFor="let day of forecast.data" class="text-primary-emphasis fw-semibold">
-              {{ day.min_temp | number:'1.0-0' }}°
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="page-header d-flex justify-content-between align-items-center mb-5">
+    <h3>Pronóstico de 5 días para <strong>{{ forecast.city_name }} </strong></h3>
+    <a [routerLink]="['/weather']" class="btn btn-outline-secondary back-btn">
+      <i class="bi bi-arrow-left me-1"></i> &larr; Volver
+    </a>
+  </div>
 
-    <!-- Lista agrupada de pronostico por dias -->
-    <div class="list-group shadow-sm forecast-list">
-      <div *ngFor="let day of forecast.data" class="list-group-item">
-        <div class="row align-items-center">
+  <!-- Tabla de tendencia para las temperaturas -->
+  <h4 class="mb-3 mt-4 text-center text-muted fw-light">Tendencia de Temperatura Máx/Mín</h4>
+  <div class="table-responsive chart-container mb-5">
+    <table class="table table-sm text-center forecast-trend-table">
+      <thead>
+        <tr>
+          @for (day of forecast.data; track day.valid_date) {
+          <th>{{ day.valid_date | date:'EEE' }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          @for (day of forecast.data; track day.valid_date) {
+          <td class="text-danger fw-bold">
+            {{ day.max_temp | number:'1.0-0' }}°
+          </td>
+          }
 
-          <div class="col-12 col-md-3">
-            <h5 class="mb-0 day-date">{{ day.valid_date | date:'EEE, MMM, d' }}</h5>
-          </div>
+        </tr>
+        <tr>
+          @for (day of forecast.data; track day.valid_date) {
+          <td class="text-primary-emphasis fw-semibold">
+            {{ day.min_temp | number:'1.0-0' }}°
+          </td>
+          }
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-          <div class="col-6 col-md-3 d-flex align-items-center">
-            <img [src]="'https://www.weatherbit.io/static/img/icons/' + day.weather.icon + '.png'"
-              [alt]="day.weather.description" width="60" height="60">
-            <div>
-              <span class="ms-2 weather-description d-block">{{ day.weather.description }}</span>
-              <span class="ms-2 pop-info text-success small">{{ day.pop }}% Prob. Lluvia</span>
-              <div class="progress" style="height: 5px; width: 100px;">
-                <div class="progress-bar bg-info" role="progressbar" [style.width]="day.pop + '%'" [attr.aria-valuenow]="day.pop"
-                  aria-valuemin="0" aria-valuemax="100">
-                </div>
+  <!-- Lista agrupada de pronostico por dias -->
+  <div class="list-group shadow-sm forecast-list">
+    @for (day of forecast.data; track day.valid_date) {
+    <div class="list-group-item">
+      <div class="row align-items-center">
+
+        <div class="col-12 col-md-3">
+          <h5 class="mb-0 day-date">{{ day.valid_date | date:'EEE, MMM, d' }}</h5>
+        </div>
+
+        <div class="col-6 col-md-3 d-flex align-items-center">
+          <img [src]="'https://www.weatherbit.io/static/img/icons/' + day.weather.icon + '.png'"
+            [alt]="day.weather.description" width="60" height="60">
+          <div>
+            <span class="ms-2 weather-description d-block">{{ day.weather.description }}</span>
+            <span class="ms-2 pop-info text-success small">{{ day.pop }}% Prob. Lluvia</span>
+            <div class="progress" style="height: 5px; width: 100px;">
+              <div class="progress-bar bg-info" role="progressbar" [style.width]="day.pop + '%'"
+                [attr.aria-valuenow]="day.pop" aria-valuemin="0" aria-valuemax="100">
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-6 col-md-6 text-md-end temp-details">
+        <div class="col-6 col-md-6 text-md-end temp-details">
 
-            <span class="max-temp me-3 d-block d-sm-inline-block">
-              <strong>Máx:</strong> {{ day.max_temp | number:'1.0-0' }}°F
-            </span>
-            <span class="min-temp text-muted d-block d-sm-inline-block">
-              <strong>Mín:</strong> {{ day.min_temp | number:'1.0-0' }}°F
-            </span>
+          <span class="max-temp me-3 d-block d-sm-inline-block">
+            <strong>Máx:</strong> {{ day.max_temp | number:'1.0-0' }}°F
+          </span>
+          <span class="min-temp text-muted d-block d-sm-inline-block">
+            <strong>Mín:</strong> {{ day.min_temp | number:'1.0-0' }}°F
+          </span>
 
-            <div class="d-none d-md-block d-flex justify-content-end mt-1 small-details">
-              <span class="wind-info text-muted me-3">💨Viento: {{ day.wind_spd }} m/s</span>
-              <span class="uv-info text-muted">☀️UV: {{ day.uv | number:'1.0-0' }}</span>
-            </div>
-
+          <div class="d-none d-md-block d-flex justify-content-end mt-1 small-details">
+            <span class="wind-info text-muted me-3">💨Viento: {{ day.wind_spd }} m/s</span>
+            <span class="uv-info text-muted">☀️UV: {{ day.uv | number:'1.0-0' }}</span>
           </div>
 
         </div>
 
-
       </div>
+
+
     </div>
-
-
+    }
 
   </div>
-
-  <ng-template #loading>
-  </ng-template>
+  } @else {
+  <div class="d-flex justify-content-center align-items-center p-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <span class="ms-3 text-muted">Cargando pronóstico para {{ zipcode }}...</span>
+  </div>
+  }
 </div>
