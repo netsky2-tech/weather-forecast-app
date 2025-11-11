@@ -65,6 +65,7 @@ $shadow-light: rgba(0, 0, 0, 0.08);
 
     .detail-item {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
       padding: 5px 0;
 
@@ -77,6 +78,20 @@ $shadow-light: rgba(0, 0, 0, 0.08);
         font-size: 1rem;
         font-weight: 600;
         color: $primary-text;
+      }
+
+    }
+
+    .detail-item.detail-graph {
+
+      .detail-label,
+      .detail-value {
+        display: inline-block;
+      }
+
+      .progress {
+        margin-top: 5px;
+        width: 100%;
       }
     }
   }

@@ -2,18 +2,43 @@
   <div *ngIf="forecast$ | async as forecast; else loading">
 
     <div class="page-header d-flex justify-content-between align-items-center mb-5">
-      <h3>Pronóstico de 5 días para {{ forecast.city_name }}</h3>
+      <h3>Pronóstico de 5 días para <strong>{{ forecast.city_name }} </strong></h3>
       <a [routerLink]="['/weather']" class="btn btn-outline-secondary back-btn">
         <i class="bi bi-arrow-left me-1"></i> &larr; Volver
       </a>
     </div>
 
+    <!-- Tabla de tendencia para las temperaturas -->
+    <h4 class="mb-3 mt-4 text-center text-muted fw-light">Tendencia de Temperatura Máx/Mín</h4>
+    <div class="table-responsive chart-container mb-5">
+      <table class="table table-sm text-center forecast-trend-table">
+        <thead>
+          <tr>
+            <th *ngFor="let day of forecast.data">{{ day.valid_date | date:'EEE' }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let day of forecast.data" class="text-danger fw-bold">
+              {{ day.max_temp | number:'1.0-0' }}°
+            </td>
+          </tr>
+          <tr>
+            <td *ngFor="let day of forecast.data" class="text-primary-emphasis fw-semibold">
+              {{ day.min_temp | number:'1.0-0' }}°
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Lista agrupada de pronostico por dias -->
     <div class="list-group shadow-sm forecast-list">
       <div *ngFor="let day of forecast.data" class="list-group-item">
         <div class="row align-items-center">
 
           <div class="col-12 col-md-3">
-            <h5 class="mb-0 day-date">{{ day.valid_date | date:'fullDate' }}</h5>
+            <h5 class="mb-0 day-date">{{ day.valid_date | date:'EEE, MMM, d' }}</h5>
           </div>
 
           <div class="col-6 col-md-3 d-flex align-items-center">
@@ -22,6 +47,11 @@
             <div>
               <span class="ms-2 weather-description d-block">{{ day.weather.description }}</span>
               <span class="ms-2 pop-info text-success small">{{ day.pop }}% Prob. Lluvia</span>
+              <div class="progress" style="height: 5px; width: 100px;">
+                <div class="progress-bar bg-info" role="progressbar" [style.width]="day.pop + '%'" [attr.aria-valuenow]="day.pop"
+                  aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
             </div>
           </div>
 
@@ -35,15 +65,19 @@
             </span>
 
             <div class="d-none d-md-block d-flex justify-content-end mt-1 small-details">
-              <span class="wind-info text-muted me-3">Viento: {{ day.wind_spd }} m/s</span>
-              <span class="uv-info text-muted">UV: {{ day.uv | number:'1.0-0' }}</span>
+              <span class="wind-info text-muted me-3">💨Viento: {{ day.wind_spd }} m/s</span>
+              <span class="uv-info text-muted">☀️UV: {{ day.uv | number:'1.0-0' }}</span>
             </div>
 
           </div>
 
         </div>
+
+
       </div>
     </div>
+
+
 
   </div>
 

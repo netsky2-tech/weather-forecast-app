@@ -21,8 +21,9 @@ $bg-hover: #f8f9fa;
     .back-btn {
       font-size: 0.9rem;
       padding: 0.5rem 1rem;
-      color: $secondary-text;
+      color: $bg-hover;
       border-color: $subtle-border-color;
+      background-color: $secondary-text;
 
       &:hover {
         color: white;
@@ -81,5 +82,26 @@ $bg-hover: #f8f9fa;
         }
       }
     }
+  }
+}
+
+.forecast-trend-table {
+  border-collapse: collapse;
+  margin-bottom: 0;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+  th,
+  td {
+    border: none;
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+    vertical-align: top;
+  }
+
+  thead th {
+    border-bottom: 1px solid $subtle-border-color;
+    font-weight: 500;
   }
 }

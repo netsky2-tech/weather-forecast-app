@@ -12,9 +12,14 @@
 
   <div class="details-grid">
 
-    <div class="detail-item">
-      <span class="detail-label">Humedad</span>
+    <div class="detail-item detail-graph">
+      <span class="detail-label">💧 Humedad</span>
       <span class="detail-value">{{ conditions.data?.[0]?.rh }}%</span>
+      <div class="progress mt-1" style="height: 5px;">
+        <div class="progress-bar bg-info" role="progressbar" [style.width]="conditions.data?.[0]?.rh + '%'"
+          [attr.aria-valuenow]="conditions.data?.[0]?.rh" aria-valuemin="0" aria-valuemax="100">
+        </div>
+      </div>
     </div>
 
     <div class="detail-item">
@@ -22,7 +27,7 @@
       <span class="detail-value">{{ conditions.data?.[0]?.app_temp }}°C</span>
     </div>
     <div class="detail-item">
-      <span class="detail-label">Viento</span>
+      <span class="detail-label">💨 Viento</span>
       <span class="detail-value">{{ conditions.data?.[0]?.wind_spd | number:'1.0-1'}} mph {{ conditions.data?.[0]?.wind_cdir_full }}</span>
     </div>
     <div class="detail-item">
@@ -33,6 +38,11 @@
     <div class="detail-item">
       <span class="detail-label">Índice UV</span>
       <span class="detail-value">{{ conditions.data?.[0]?.uv | number:'1.0-0' }}</span>
+      <div class="progress mt-1" style="height: 5px;">
+        <div class="progress-bar bg-warning" role="progressbar" [style.width]="(conditions.data?.[0]?.uv || 0 / 11) * 100 + '%'"
+          [attr.aria-valuenow]="conditions.data?.[0]?.uv" aria-valuemin="0" aria-valuemax="11">
+        </div>
+      </div>
     </div>
     <div class="detail-item">
       <span class="detail-label">Visibilidad</span>
@@ -40,19 +50,22 @@
     </div>
 
     <div class="detail-item">
-      <span class="detail-label">Amanecer</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.sunset }} </span>
-    </div>
-    <div class="detail-item">
-      <span class="detail-label">Atardecer</span>
+      <span class="detail-label">
+        ☀️ Amanecer
+      </span>
       <span class="detail-value">{{ conditions.data?.[0]?.sunrise }} </span>
     </div>
 
-
+    <div class="detail-item">
+      <span class="detail-label">
+        🌙 Atardecer
+      </span>
+      <span class="detail-value">{{ conditions.data?.[0]?.sunset }} </span>
+    </div>
   </div>
 
   <a [routerLink]="['/forecast', zipcode]" class="btn btn-link link-style mt-4">
-    Ver pronostico de 5 dias para {{ conditions.data?.[0]?.city_name }}
+    Ver pronostico de los proximos 5 dias
     <i class="bi bi-arrow-right ms-2"></i>
   </a>
 </div>
