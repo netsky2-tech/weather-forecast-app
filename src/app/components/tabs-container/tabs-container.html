@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs" role="tablist">
-  <li class="nav-item" *ngFor="let tab of tabs">
+  <li class="nav-item" *ngFor="let tab of tabs" role="presentation">
     <a [id]="'tab-' + tab.id" class="nav-link" [class.active]="tab.id === activeTab()" (click)="selectTab(tab.id)"
       href="javascript:void(0)" role="tab" [attr.aria.selected]="tab.id === activeTab()">
       {{ tab.title }}
