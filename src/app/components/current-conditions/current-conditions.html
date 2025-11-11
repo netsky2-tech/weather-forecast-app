@@ -1,12 +1,13 @@
-<div class="weather-card" *ngIf="conditions; else loading">
-  <h2 class="weather-card-title">{{ conditions.data?.[0]?.city_name }}</h2>
+@if (conditions; as condition ) {
+<div class="weather-card">
+  <h2 class="weather-card-title">{{ condition.city_name }}</h2>
   <div class="current-temp-section">
-    <img [src]="'https://www.weatherbit.io/static/img/icons/' + conditions.data?.[0]?.weather?.icon + '.png'"
-      [alt]="conditions.data?.[0]?.weather?.description" width="80" height="80">
+    <img [src]="'https://www.weatherbit.io/static/img/icons/' + condition.weather.icon + '.png'"
+      [alt]="condition.weather.description" width="80" height="80">
 
     <div class="temp-details">
-      <h2 class="temperature">{{ conditions.data?.[0]?.temp }}°C</h2>
-      <p class="description">{{ conditions.data?.[0]?.weather?.description }}</p>
+      <h2 class="temperature">{{ condition.temp }}°C</h2>
+      <p class="description">{{ condition.weather.description }}</p>
     </div>
   </div>
 
@@ -14,53 +15,55 @@
 
     <div class="detail-item detail-graph">
       <span class="detail-label">💧 Humedad</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.rh }}%</span>
+      <span class="detail-value">{{ condition.rh }}%</span>
       <div class="progress mt-1" style="height: 5px;">
-        <div class="progress-bar bg-info" role="progressbar" [style.width]="conditions.data?.[0]?.rh + '%'"
-          [attr.aria-valuenow]="conditions.data?.[0]?.rh" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar bg-info" role="progressbar" [style.width]="condition.rh + '%'"
+          [attr.aria-valuenow]="condition.rh" aria-valuemin="0" aria-valuemax="100">
         </div>
       </div>
     </div>
 
     <div class="detail-item">
       <span class="detail-label">Sensación</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.app_temp }}°C</span>
+      <span class="detail-value">{{ condition.app_temp }}°C</span>
     </div>
     <div class="detail-item">
       <span class="detail-label">💨 Viento</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.wind_spd | number:'1.0-1'}} mph {{ conditions.data?.[0]?.wind_cdir_full }}</span>
+      <span class="detail-value">{{ condition.wind_spd | number:'1.0-1'}} mph {{
+        condition.wind_cdir_full }}</span>
     </div>
     <div class="detail-item">
       <span class="detail-label">Presión</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.pres }} mb</span>
+      <span class="detail-value">{{ condition.pres }} mb</span>
     </div>
 
     <div class="detail-item">
       <span class="detail-label">Índice UV</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.uv | number:'1.0-0' }}</span>
+      <span class="detail-value">{{ condition.uv | number:'1.0-0' }}</span>
       <div class="progress mt-1" style="height: 5px;">
-        <div class="progress-bar bg-warning" role="progressbar" [style.width]="(conditions.data?.[0]?.uv || 0 / 11) * 100 + '%'"
-          [attr.aria-valuenow]="conditions.data?.[0]?.uv" aria-valuemin="0" aria-valuemax="11">
+        <div class="progress-bar bg-warning" role="progressbar"
+          [style.width]="(condition.uv || 0 / 11) * 100 + '%'"
+          [attr.aria-valuenow]="condition.uv" aria-valuemin="0" aria-valuemax="11">
         </div>
       </div>
     </div>
     <div class="detail-item">
       <span class="detail-label">Visibilidad</span>
-      <span class="detail-value">{{ conditions.data?.[0]?.vis| number:'1.0-0' }}</span>
+      <span class="detail-value">{{ condition.vis| number:'1.0-0' }}</span>
     </div>
 
     <div class="detail-item">
       <span class="detail-label">
         ☀️ Amanecer
       </span>
-      <span class="detail-value">{{ conditions.data?.[0]?.sunrise }} </span>
+      <span class="detail-value">{{ condition.sunrise }} </span>
     </div>
 
     <div class="detail-item">
       <span class="detail-label">
         🌙 Atardecer
       </span>
-      <span class="detail-value">{{ conditions.data?.[0]?.sunset }} </span>
+      <span class="detail-value">{{ condition.sunset }} </span>
     </div>
   </div>
 
@@ -69,13 +72,11 @@
     <i class="bi bi-arrow-right ms-2"></i>
   </a>
 </div>
-
-
-<ng-template #loading>
+} @else {
   <div class="d-flex justify-content-center align-items-center p-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Cargando...</span>
     </div>
     <span class="ms-3 text-muted">Cargando datos para {{ zipcode }}...</span>
   </div>
-</ng-template>
+}

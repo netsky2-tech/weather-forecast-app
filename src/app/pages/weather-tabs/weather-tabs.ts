@@ -48,7 +48,7 @@ export class WeatherTabs implements OnInit {
           // Mapeamos la respuesta de Weather a nuestra interfaz GenericTab
           map((weatherData) => ({
             id: zip,
-            title: `${weatherData.data?.[0]?.city_name} (${zip})`,
+            title: `${weatherData?.city_name} (${zip})`,
           }))
           // Aquí podríamos añadir un .catchError() para manejar si un zipcode es inválido
         )

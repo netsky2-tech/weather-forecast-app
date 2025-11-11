@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { WeatherApi } from '../../services/weather-api/weather-api';
-import {  CurrentWeatherModel } from '../../models/current-weather.model';
+import {  CurrentDataEntity, CurrentWeatherModel } from '../../models/current-weather.model';
 
 @Component({
   selector: 'app-current-conditions',
@@ -20,14 +20,16 @@ export class CurrentConditions implements OnInit {
   private weatherApi = inject(WeatherApi);
 
   // Uso de Observable para manejar el estado y tipo
-  conditions: CurrentWeatherModel | null = null;
+  conditions: CurrentDataEntity | null = null;
 
 ngOnInit(): void {
+  console.log(this.conditions);
   if (this.zipcode) {
     this.weatherApi.getCurrentConditions(this.zipcode)
       .subscribe(data => {
         this.conditions = data;
       });
+      console.log(this.conditions);
   }
 }
 

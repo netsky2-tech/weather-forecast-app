@@ -4,8 +4,8 @@ import { Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { Cache } from '../cache/cache'
 import { environment } from '../../../environments/environment';
-import { CurrentWeatherModel,Weather, CurrentDataEntity } from '../../models/current-weather.model'
-import { DailyWeatherModel, DailyWeather, DailyDataEntity } from '../../models/daily-weather.model'
+import { CurrentWeatherModel, CurrentDataEntity } from '../../models/current-weather.model'
+import { DailyWeatherModel } from '../../models/daily-weather.model'
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +18,9 @@ export class WeatherApi {
   private readonly apiKey: string = environment.API_KEY;
 
   // Metodo para obtener condiciones actuales
-  getCurrentConditions(zipcode: string): Observable<CurrentWeatherModel> {
+  getCurrentConditions(zipcode: string): Observable<CurrentDataEntity | null> {
     const cacheKey = `current_${zipcode}`;
-    const cachedData = this.cache.getItem<CurrentWeatherModel>(cacheKey);
+    const cachedData = this.cache.getItem<CurrentDataEntity>(cacheKey);
 
     // Si hay cache valida se retorna como un Observable
     if (cachedData) {
@@ -37,11 +37,15 @@ export class WeatherApi {
         },
       })
       .pipe(
-        // Extraer data relevante para mostrar al usuario
-        // Se utiliza [0] por que el API retorna []
-        //map((response: any) => response.data[0]),
-        // Se guarda en cache antes de devolver
-        tap((data) => this.cache.setItem(cacheKey, data))
+        map((response: CurrentWeatherModel) => {
+          const data = response.data;
+          if (data && data.length > 0) {
+            return data[0];
+          }
+
+          return null;
+        }),
+        tap((cleanData) => this.cache.setItem(cacheKey, cleanData))
       );
   }
 
@@ -64,8 +68,6 @@ export class WeatherApi {
           units: 'M',
         },
       })
-      .pipe(
-        tap((data) => this.cache.setItem(cacheKey, data))
-      );
+      .pipe(tap((data) => this.cache.setItem(cacheKey, data)));
   }
 }
