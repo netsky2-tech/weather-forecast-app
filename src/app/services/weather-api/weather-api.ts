@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { Cache } from '../cache/cache'
-import { enviroment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { CurrentWeatherModel,Weather, CurrentDataEntity } from '../../models/current-weather.model'
 import { DailyWeatherModel, DailyWeather, DailyDataEntity } from '../../models/daily-weather.model'
 
@@ -14,8 +14,8 @@ export class WeatherApi {
   private http = inject(HttpClient);
   private cache = inject(Cache);
 
-  private readonly baseUrl: string = enviroment.API_URL;
-  private readonly apiKey: string = enviroment.API_KEY;
+  private readonly baseUrl: string = environment.API_URL;
+  private readonly apiKey: string = environment.API_KEY;
 
   // Metodo para obtener condiciones actuales
   getCurrentConditions(zipcode: string): Observable<CurrentWeatherModel> {
