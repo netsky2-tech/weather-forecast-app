@@ -1,26 +1,29 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-// Se importa FormsModule para ngModel en componentes standalone
-import { FormsModule } from '@angular/forms';
+
 import { Location } from '../../services/location/location';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule],
+  imports: [],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-
   private locationService = inject(Location);
   private router = inject(Router);
 
-  zipcode: string ='';
+  zipcode = signal<string>('');
+
+  onZipcodeChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.zipcode.set(input.value);
+  }
 
   addLocation(): void {
-    const trimmedZip = this.zipcode.trim();
 
+    const trimmedZip = this.zipcode().trim();
     // No agregar si esta vacio
     if (!trimmedZip) {
       return;
@@ -32,6 +35,6 @@ export class Dashboard {
     this.router.navigate(['/weather'], { queryParams: { active: trimmedZip } });
 
     // Limpieza del input
-    this.zipcode='';
+    this.zipcode.set('');
   }
 }

@@ -27,6 +27,9 @@ $content-bg: #f8f9fa;
 
   .nav-item {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
 
     .nav-link {
       color: $modern-tab-color;
@@ -48,27 +51,24 @@ $content-bg: #f8f9fa;
         text-decoration: none;
 
         .btn-close {
+          flex-shrink: 0;
           color: $active-color-accent;
+          margin-left: -0.25rem;
+          margin-right: 0.5rem;
+
+          &:hover {
+            opacity: 1;
+            color: red;
+          }
+
+          &:hover:not(.active) {
+            color: #212529;
+            background-color: #f8f9fa;
+            cursor: pointer;
+          }
         }
       }
 
-      .btn-close {
-        margin-left: 0.75rem !important;
-        font-size: 0.7rem;
-        color: #adb5bd;
-        opacity: 0.7;
-        transition: opacity 0.2s;
-
-        &:hover {
-          opacity: 1;
-        }
-      }
-
-      &:hover:not(.active) {
-        color: #212529;
-        background-color: #f8f9fa;
-        cursor: pointer;
-      }
     }
   }
 

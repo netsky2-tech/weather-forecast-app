@@ -13,8 +13,7 @@ export const routes: Routes = [
   {
     // Usamos un parámetro de ruta para el zipcode
     path: 'forecast/:zipcode',
-    loadComponent: () =>
-      import('./pages/forecast/forecast').then((m) => m.Forecast),
+    loadComponent: () => import('./pages/forecast/forecast').then((m) => m.Forecast),
   },
   {
     path: '',

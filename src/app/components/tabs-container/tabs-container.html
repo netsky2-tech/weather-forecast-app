@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs">
   <li class="nav-item" *ngFor="let tab of tabs">
-    <a class="nav-link" [class.active]="tab.id === activeTab()" (click)="selectTab(tab.id)" href="javascript:void(0)"
-      role="tab" [attr.aria.selected]="tab.id === activeTab()">
+    <a [id]="'tab-' + tab.id" class="nav-link" [class.active]="tab.id === activeTab()" (click)="selectTab(tab.id)"
+      href="javascript:void(0)" role="tab" [attr.aria.selected]="tab.id === activeTab()">
       {{ tab.title }}
-      <button type="button" class="btn-close btn-close-sm ms-3" aria-label="Cerrar pestaña"
-        (click)="closeTab($event, tab.id)"></button>
     </a>
+    <button type="button" class="btn-close btn-close-sm ms-3" [attr.aria-label]="'Cerrar pestaña ' + tab.title + tab.id"
+      (click)="closeTab($event, tab.id)"></button>
   </li>
 </ul>
 
@@ -13,7 +13,7 @@
   <div class="tab-content">
     <ng-container *ngFor="let tab of tabs">
 
-      <div *ngIf="tab.id === activeTab()">
+      <div *ngIf="tab.id === activeTab()" role="tabpanel" [attr.aria-labelledby]="'tab-' + tab.id">
         <ng-container *ngTemplateOutlet="tabTemplate; context: { $implicit: tab.id}">
         </ng-container>
       </div>
