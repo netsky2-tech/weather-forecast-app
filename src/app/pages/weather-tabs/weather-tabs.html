@@ -20,7 +20,7 @@
       >
 
       <ng-template let-zip>
-        <app-current-conditions [zipcode]="zip"></app-current-conditions>
+        <app-current-conditions [zipcode]="zip" [conditions]="weatherDataMap().get(zip) || null"></app-current-conditions>
       </ng-template>
 
     </app-tabs-container>

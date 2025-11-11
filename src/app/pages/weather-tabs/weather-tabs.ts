@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Location } from '../../services/location/location';
 import { GenericTab, TabsContainer } from '../../components/tabs-container/tabs-container';
@@ -9,6 +9,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Observable, forkJoin, of } from 'rxjs';
 import { switchMap, map } from 'rxjs';
 import { WeatherApi } from '../../services/weather-api/weather-api';
+import { CurrentDataEntity } from '../../models/current-weather.model';
 
 
 @Component({
@@ -35,31 +36,52 @@ export class WeatherTabs implements OnInit {
 
   private locations$: Observable<string[]> = toObservable(this.locationSignal);
 
-  private tabs$: Observable<GenericTab[]> = this.locations$.pipe(
+  // Observable para el map de datos
+  private weatherDataMap$: Observable<Map<string, CurrentDataEntity | null>> = this.locations$.pipe(
     switchMap((zipcodes) => {
-      // Si la lista está vacía, emitimos un array vacío
       if (zipcodes.length === 0) {
-        return of([]);
+        return of(new Map<string, CurrentDataEntity | null>());
       }
 
-      // Creamos un array de observables (peticiones API)
+      // El array de observables ahora devuelve el zip y los datos
       const locationRequests$ = zipcodes.map((zip) =>
         this.weatherApi.getCurrentConditions(zip).pipe(
-          // Mapeamos la respuesta de Weather a nuestra interfaz GenericTab
-          map((weatherData) => ({
-            id: zip,
-            title: `${weatherData?.city_name} (${zip})`,
-          }))
+          map((weatherData) => ({ zip, data: weatherData }))
           // Aquí podríamos añadir un .catchError() para manejar si un zipcode es inválido
         )
       );
 
-      // Ejecutamos todas las peticiones en paralelo
-      return forkJoin(locationRequests$);
+      return forkJoin(locationRequests$).pipe(
+        // Convertimos el array de resultados en un Mapa
+        map((results) => {
+          const dataMap = new Map<string, CurrentDataEntity | null>();
+          results.forEach((result) => {
+            dataMap.set(result.zip, result.data);
+          });
+          return dataMap;
+        })
+      );
     })
   );
 
-  public tabs:Signal<GenericTab[]> = toSignal(this.tabs$, { initialValue: [] });
+  // Se converte el map en un signal
+  public weatherDataMap: Signal<Map<string, CurrentDataEntity | null>> = toSignal(
+    this.weatherDataMap$,
+    { initialValue: new Map() }
+  );
+
+  public tabs: Signal<GenericTab[]> = computed(() => {
+    const dataMap = this.weatherDataMap();
+
+    // Usamos 'this.locations()' para mantener el orden original
+    return this.locations().map((zip) => {
+      const data = dataMap.get(zip); // data es 'CurrentDataEntity | null'
+      return {
+        id: zip,
+        title: data ? `${data.city_name} (${zip})` : `Cargando... (${zip})`,
+      };
+    });
+  });
 
   onTabClosed(zipcode: string): void {
     this.locationService.removeLocation(zipcode);

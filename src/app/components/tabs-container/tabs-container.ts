@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, computed, WritableSignal, Signal, signal, ContentChild, TemplateRef, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, WritableSignal, signal, ContentChild, TemplateRef, SimpleChanges, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface TabContext {

@@ -11,26 +11,14 @@ import {  CurrentDataEntity, CurrentWeatherModel } from '../../models/current-we
   templateUrl: './current-conditions.html',
   styleUrl: './current-conditions.scss',
 })
-export class CurrentConditions implements OnInit {
+export class CurrentConditions {
 
   // Se recibe el zipcode como Input, se usa definite assignment assertion,
   // ya que el valor sera inyectado por Angular, no dentro del constructor
   @Input({ required: true }) zipcode!: string;
 
-  private weatherApi = inject(WeatherApi);
 
-  // Uso de Observable para manejar el estado y tipo
-  conditions: CurrentDataEntity | null = null;
 
-ngOnInit(): void {
-  console.log(this.conditions);
-  if (this.zipcode) {
-    this.weatherApi.getCurrentConditions(this.zipcode)
-      .subscribe(data => {
-        this.conditions = data;
-      });
-      console.log(this.conditions);
-  }
-}
+  @Input({ required: true }) conditions: CurrentDataEntity | null = null;
 
 }
