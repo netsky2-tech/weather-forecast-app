@@ -1,0 +1,38 @@
+name: Build and Deploy to GitHub Pages
+
+# Se dispara en cada push a la rama 'main'
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Obtiene el código del repositorio
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # 2. Configura Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Angular 18+ requiere Node 20
+        cache: 'npm'
+
+    # 3. Instala dependencias
+    - name: Install Dependencies
+      run: npm install
+
+    # 4. Construye la aplicación (usando la config de angular.json)
+    - name: Build
+      run: ng build --configuration production
+
+    # 5. Despliega la carpeta 'dist/' en la rama 'gh-pages'
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # La carpeta que debe desplegar
+        publish_dir: ./dist/angular-weather-test
