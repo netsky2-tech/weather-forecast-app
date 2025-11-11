@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { Cache } from '../cache/cache'
 import { environment } from '../../../environments/environment';
 import { CurrentWeatherModel, CurrentDataEntity } from '../../models/current-weather.model'
@@ -44,6 +44,10 @@ export class WeatherApi {
           }
 
           return null;
+        }),
+        catchError((error) => {
+          //console.error(error)
+          return of(null)
         }),
         tap((cleanData) => this.cache.setItem(cacheKey, cleanData))
       );

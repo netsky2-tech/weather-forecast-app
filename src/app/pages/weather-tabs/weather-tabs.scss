@@ -3,6 +3,7 @@ $secondary-text: #6c757d;
 $accent-color: #007bff;
 $subtle-border-color: #dee2e6;
 $page-bg: #f4f6f9;
+$bg-hover: #f8f9fa;
 
 .container {
   padding-bottom: 30px;
@@ -53,6 +54,19 @@ $page-bg: #f4f6f9;
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  .btn-new-zip {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    color: $bg-hover;
+    border-color: $subtle-border-color;
+
+    &:hover {
+      color: white;
+      background-color: $accent-color;
+      border-color: $accent-color;
     }
   }
 }

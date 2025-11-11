@@ -6,7 +6,7 @@ import { CurrentConditions } from '../../components/current-conditions/current-c
 import { RouterLink, ActivatedRoute } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, debounce, forkJoin, of, timer } from 'rxjs';
 import { switchMap, map } from 'rxjs';
 import { WeatherApi } from '../../services/weather-api/weather-api';
 import { CurrentDataEntity } from '../../models/current-weather.model';
@@ -36,9 +36,15 @@ export class WeatherTabs implements OnInit {
 
   private locations$: Observable<string[]> = toObservable(this.locationSignal);
 
-
   // Observable para el map de datos
   private weatherDataMap$: Observable<Map<string, CurrentDataEntity | null>> = this.locations$.pipe(
+    debounce((zipcodes) => {
+      if (zipcodes.length > 0) {
+        return timer(0);
+      }
+      return timer(50);
+    }),
+
     switchMap((zipcodes) => {
       if (zipcodes.length === 0) {
         return of(new Map<string, CurrentDataEntity | null>());
@@ -76,7 +82,16 @@ export class WeatherTabs implements OnInit {
 
     // Usamos 'this.locations()' para mantener el orden original
     return this.locations().map((zip) => {
-      const data = dataMap.get(zip); // data es 'CurrentDataEntity | null'
+      if (!dataMap.has(zip)) {
+        return { id: zip, title: `Cargando... (${zip})` };
+      }
+
+      const data = dataMap.get(zip);
+
+      if (data === null) {
+        return { id: zip, title: `Ubicación Inválida (${zip})` };
+      }
+
       return {
         id: zip,
         title: data ? `${data.city_name} (${zip})` : `Cargando... (${zip})`,

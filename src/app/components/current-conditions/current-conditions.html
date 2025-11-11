@@ -73,10 +73,15 @@
   </a>
 </div>
 } @else {
-  <div class="d-flex justify-content-center align-items-center p-5 loading-spinner">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Cargando...</span>
-    </div>
-    <span class="ms-3 text-muted">Cargando datos para {{ zipcode }}...</span>
+<div class="alert alert-danger d-flex align-items-center p-4 mt-4" role="alert" @cardFade>
+  <i class="bi bi-exclamation-triangle-fill me-3" style="font-size: 1.5rem;"></i>
+  <div>
+    <h5 class="alert-heading">Error de Ubicación</h5>
+    <p class="mb-0">
+      No se pudieron cargar los datos.
+      Por favor, asegúrate de que sea un código postal válido de EE.UU. y elimínalo
+      para intentarlo de nuevo.
+    </p>
   </div>
+</div>
 }
