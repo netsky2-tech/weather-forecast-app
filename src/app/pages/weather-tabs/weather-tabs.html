@@ -6,24 +6,28 @@
     </a>
   </div>
 
-  <div *ngIf="locations().length === 0; else showTabs"
-       class="alert alert-info text-center">
+  @if (locations().length === 0) {
+  <div class="alert alert-info text-center">
     No has añadido ninguna ubicación.
     <a [routerLink]="['/dashboard']">Añade una</a> para empezar.
   </div>
+  } @else {
+  <app-tabs-container [tabs]="tabs()" (tabClosed)="onTabClosed($event)" [requestedTab]="requestedActiveTab()"
+    (requestedTabConsumed)="requestedActiveTab.set(null)">
 
-  <ng-template #showTabs>
-    <app-tabs-container
-      [tabs]="tabs()"
-      (tabClosed)="onTabClosed($event)"
-      [requestedTab] = "requestedActiveTab()"
-      (requestedTabConsumed)="requestedActiveTab.set(null)"
-      >
+    <ng-template let-zip>
+      @if (weatherDataMap().has(zip)) {
+      <app-current-conditions [zipcode]="zip" [conditions]="weatherDataMap().get(zip) || null"></app-current-conditions>
+      } @else {
+      <div class="d-flex justify-content-center align-items-center p-5 loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <span class="ms-3 text-muted">Cargando datos para {{ zip }}...</span>
+      </div>
+      }
+    </ng-template>
 
-      <ng-template let-zip>
-        <app-current-conditions [zipcode]="zip" [conditions]="weatherDataMap().get(zip) || null"></app-current-conditions>
-      </ng-template>
-
-    </app-tabs-container>
-  </ng-template>
+  </app-tabs-container>
+  }
 </div>
