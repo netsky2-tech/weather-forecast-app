@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Signal, computed } from '@angular/core';
+import { Component, inject, OnInit, Signal, computed, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Location } from '../../services/location/location';
 import { GenericTab, TabsContainer } from '../../components/tabs-container/tabs-container';
@@ -20,7 +20,7 @@ import { CurrentDataEntity } from '../../models/current-weather.model';
 })
 export class WeatherTabs implements OnInit {
   ngOnInit(): void {
-    this.requestedActiveTab = this.route.snapshot.queryParamMap.get('active');
+    this.requestedActiveTab.set(this.route.snapshot.queryParamMap.get('active'));
   }
 
   private locationService = inject(Location);
@@ -30,11 +30,12 @@ export class WeatherTabs implements OnInit {
 
   locations: Signal<string[]> = this.locationService.locations;
 
-  requestedActiveTab: string | null = null;
+  requestedActiveTab: WritableSignal<string | null> = signal(null);
 
   private locationSignal: Signal<string[]> = this.locationService.locations;
 
   private locations$: Observable<string[]> = toObservable(this.locationSignal);
+
 
   // Observable para el map de datos
   private weatherDataMap$: Observable<Map<string, CurrentDataEntity | null>> = this.locations$.pipe(

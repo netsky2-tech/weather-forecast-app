@@ -16,7 +16,8 @@
     <app-tabs-container
       [tabs]="tabs()"
       (tabClosed)="onTabClosed($event)"
-      [requestedTab] = "requestedActiveTab"
+      [requestedTab] = "requestedActiveTab()"
+      (requestedTabConsumed)="requestedActiveTab.set(null)"
       >
 
       <ng-template let-zip>
