@@ -17,7 +17,9 @@
       <span class="detail-value">{{ conditions.data?.[0]?.rh }}%</span>
       <div class="progress mt-1" style="height: 5px;">
         <div class="progress-bar bg-info" role="progressbar" [style.width]="conditions.data?.[0]?.rh + '%'"
-          [attr.aria-valuenow]="conditions.data?.[0]?.rh" aria-valuemin="0" aria-valuemax="100">
+          [attr.aria-valuenow]="conditions.data?.[0]?.rh"
+          aria-label="Nivel de humedad"
+          aria-valuemin="0" aria-valuemax="100">
         </div>
       </div>
     </div>
@@ -40,7 +42,7 @@
       <span class="detail-value">{{ conditions.data?.[0]?.uv | number:'1.0-0' }}</span>
       <div class="progress mt-1" style="height: 5px;">
         <div class="progress-bar bg-warning" role="progressbar" [style.width]="(conditions.data?.[0]?.uv || 0 / 11) * 100 + '%'"
-          [attr.aria-valuenow]="conditions.data?.[0]?.uv" aria-valuemin="0" aria-valuemax="11">
+          [attr.aria-valuenow]="conditions.data?.[0]?.uv" aria-label="Nivel de índice UV" aria-valuemin="0" aria-valuemax="11">
         </div>
       </div>
     </div>
