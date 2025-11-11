@@ -1,59 +1,85 @@
-# WeatherForecastApp
+# Weather Forecast App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Una aplicación web **responsive** construida con **Angular** que permite a los usuarios obtener condiciones climáticas actuales y pronósticos de 5 días para múltiples ubicaciones (códigos postales de EE. UU.).
 
-## Development server
+Este proyecto fue desarrollado como solución a un desafío técnico, enfocándose en una **arquitectura limpia**, **componentes reutilizables** y las **mejores prácticas de Angular**, incluyendo **Signals** y **despliegue automatizado con GitHub Actions**.
 
-To start a local development server, run:
+---
+
+## Ver Demo en Vivo
+
+👉 [Abrir aplicación en GitHub Pages](https://netsky2-tech.github.io/weather-forecast-app/)
+
+---
+
+## Características Principales
+
+Este proyecto implementa todos los requisitos solicitados y añade mejoras adicionales:
+
+- **Gestión de Ubicaciones:** Añadir y eliminar ubicaciones por código postal.  
+- **Navegación de 3 Vistas:** Flujo de navegación entre un Dashboard, la vista de Pestañas y la vista de Pronóstico.  
+- **Componente de Pestañas Genérico:** Componente 100% reutilizable y agnóstico al contenido, construido con `@Input`, `@Output` y `ng-template`.  
+- **Estado Reactivo con Signals:** Estado global manejado con `signal` en un `LocationService` para reactividad instantánea.  
+- **Servicio de Caché Genérico:** `CacheService` reutilizable que usa `localStorage` con un TTL configurable (2 h por defecto).  
+- **UI Enriquecida:** Datos extendidos de la API (viento, humedad, UV, POP, etc.) para una mejor experiencia.  
+- **Visualización sin Librerías:** Gráficos de rango de temperatura creados solo con clases de Bootstrap (`.progress`).  
+- **UI con Bootstrap:** Interfaz 100% basada en Bootstrap, sin librerías externas.  
+- **Accesibilidad (W3C AA):** Contraste de color y uso correcto de atributos ARIA.  
+- **Diseño Responsivo:** Totalmente funcional en dispositivos móviles, incluyendo scroll horizontal para pestañas.
+
+---
+
+## Arquitectura y Decisiones de Diseño
+
+- **Angular Standalone:** Proyecto estructurado con la arquitectura moderna de componentes Standalone.  
+- **Pre-calentamiento de Caché:** Uso de `forkJoin` en la vista de pestañas para precargar datos de todas las ubicaciones, logrando transiciones instantáneas.  
+- **CI/CD Automatizado:** Despliegue 100 % automatizado en GitHub Pages mediante GitHub Actions. Cada push a `main` dispara un build y deploy.
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Categoría                 | Tecnología                            |
+|---------------------------|---------------------------------------|
+| **Framework**             | Angular 18+                           |
+| **Lenguaje**              | TypeScript                            |
+| **Estado**                | Angular Signals                       |
+| **Programación Reactiva** | RxJS                                  |
+| **Estilos**               | Bootstrap 5 + SCSS                    |
+| **Despliegue**            | GitHub Pages + GitHub Actions (CI/CD) |
+
+---
+
+## Cómo Ejecutar Localmente
+
+### 1️⃣ Clonar el repositorio
+
+```bash
+git clone https://github.com/netsky2-tech/weather-forecast-app.git
+```
+
+### 2️⃣ Entrar al directorio
+
+```bash
+cd weather-forecast-app
+```
+
+### 3️⃣ Instalar dependencias
+
+```bash
+npm install
+```
+
+### 4️⃣ Ejecutar la aplicacion
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 5️⃣Luego abre en tu navegador
 
-## Code scaffolding
+"<http://localhost:4200>"
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Autor
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Proyecto desarrollador por **Octavio Morales Ruiz**.

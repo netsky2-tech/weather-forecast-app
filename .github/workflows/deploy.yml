@@ -32,7 +32,11 @@ jobs:
     - name: Build
       run: npx ng build --configuration production
 
-    # 5. Despliega la carpeta 'dist/' en la rama 'gh-pages'
+      #5. Manejo del routing SPA
+    - name: Handle SPA routing (copy 404.html)
+      run: cp dist/weather-forecast-app/browser/index.html dist/weather-forecast-app/browser/404.html
+
+    # 6. Despliega la carpeta 'dist/' en la rama 'gh-pages'
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
